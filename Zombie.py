@@ -1,9 +1,7 @@
 
 class Zombie:
-    head = "_<"
-    legs1 = "<\\"
-
-    legs2 = "/<"
+    face = "´ཀ`"
+    
 
     def __init__(self, x, y, hp=3, speed=1):
         self.hp = hp
@@ -11,8 +9,6 @@ class Zombie:
         self.x = x
         self.y = y
         self.alive = True
-        self.counter = 0
-
 
     def move(self, direction):
         if direction == "LEFT":
