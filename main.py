@@ -19,7 +19,8 @@ def main(stdscr):
     stdscr.clear()
     stdscr.refresh()
 
-    stdscr.addstr(player.y, 0, player.get_stance())
+    player.update_stance()
+    stdscr.addstr(player.y, 0, player.stance)
     stdscr.nodelay(True)
 
     while True:
@@ -64,7 +65,8 @@ def main(stdscr):
 
         stdscr.clear()
 
-        stdscr.addstr(player.y, 0, player.get_stance())
+        player.update_stance()
+        stdscr.addstr(player.y, 0, player.stance)
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
