@@ -1,4 +1,5 @@
 import curses
+import random
 import time
 from curses import wrapper
 
@@ -16,7 +17,7 @@ def main(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 100)
     counter = 0
-    sh, sw = stdscr.getmaxyx()
+    points = 0
 
     stdscr.clear()
     stdscr.refresh()
@@ -35,7 +36,7 @@ def main(stdscr):
         if key == "KEY_UP" and player.y > 0:
             player.y -= 1
             # player.change_stance()
-        elif key == "KEY_DOWN" and player.y + player.height < screen_height:
+        elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
             player.y += 1
             # player.change_stance()
         elif key == " ":
@@ -60,7 +61,7 @@ def main(stdscr):
         counter += 1
 
         if counter == spawnrate:
-            zombies.append(Zombie(sw-10,player.y))
+            zombies.append(Zombie(screen_width - 10, player.y))
             counter = 0
 
         stdscr.clear()
@@ -72,13 +73,13 @@ def main(stdscr):
         for zombie in zombies:
             stdscr.addstr(zombie.y, zombie.x, zombie.face)
             stdscr.addstr(zombie.y+1, zombie.x, zombie.face)
-            
 
         for bullet in bullets:
             for i in zombies:
-                if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x -1:
-                    if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y -1:
+                if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x - 1:
+                    if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y - 1:
                         bullets.remove(bullet)
+                        points += round(1/i.x * 20 + 5)
                         zombies.remove(i)
 
         stdscr.refresh()

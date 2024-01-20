@@ -1,7 +1,6 @@
 
 class Zombie:
     face = "´ཀ`"
-    
 
     def __init__(self, x, y, hp=3, speed=1):
         self.hp = hp
