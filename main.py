@@ -1,6 +1,8 @@
 import curses
+import time
 from curses import wrapper
 from Player import Player
+from Bullet import Bullet
 
 bullets = []
 
@@ -13,6 +15,7 @@ def main(stdscr):
     stdscr.refresh()
 
     stdscr.addstr(player.y, 0, player.get_stance())
+    stdscr.nodelay(True)
 
     while True:
         # Make sure wrong input will come out as None
@@ -27,9 +30,20 @@ def main(stdscr):
             player.y += 1
         elif key == " ":
             bullets.append(Bullet(player.width + 1, player.y, 1))
+        elif key == "p":    # exit program
+            player.y += 10000
+
+        for bullet in bullets:
+            bullet.move()
+
+        time.sleep(0.05)
 
         stdscr.clear()
+
         stdscr.addstr(player.y, 0, player.get_stance())
+        for bullet in bullets:
+            stdscr.addstr(bullet.y, bullet.x, "-")
+
         stdscr.refresh()
 
     stdscr.getch()
