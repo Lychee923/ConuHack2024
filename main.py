@@ -6,6 +6,8 @@ from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
+import random
+
 bullets = []
 zombies = []
 
@@ -16,6 +18,7 @@ def main(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 100)
     counter = 0
+    counter2 = 0
     sh, sw = stdscr.getmaxyx()
 
     stdscr.clear()
@@ -50,17 +53,26 @@ def main(stdscr):
                 bullets.remove(bullet)
 
         for zombie in zombies:
+
             if zombie.x > 0:
                 zombie.move("LEFT")
+                if(player.y > zombie.y and zombie.counter >= random.randrange(10,40)):
+                    zombie.move("UP")
+                    zombie.counter = 0
+                elif(player.y < zombie.y and zombie.counter >= random.randrange(10,40)):
+                    zombie.move("DOWN")
+                    zombie.counter = 0
             else:
                 zombies.remove(zombie)
 
-        time.sleep(0.05)
 
+        time.sleep(0.05)
         counter += 1
+        for zombie in zombies:
+            zombie.counter+=1
 
         if counter == spawnrate:
-            zombies.append(Zombie(sw-10,player.y))
+            zombies.append(Zombie(sw - 10, player.y))
             counter = 0
 
         stdscr.clear()
@@ -76,7 +88,7 @@ def main(stdscr):
         for bullet in bullets:
             for i in zombies:
                 if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x -1:
-                    if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y -1:
+                    if i.y == bullet.y-1 or i.y == bullet.y:
                         bullets.remove(bullet)
                         zombies.remove(i)
 
