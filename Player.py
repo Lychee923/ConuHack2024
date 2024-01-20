@@ -9,5 +9,12 @@ class Player:
     def move(self, direction):
         self.y += direction
 
+'''
+Player animations
+Walking:
+" o  \nn+--\n />  "
+" o  \nn+--\n >\\  "
+'''
 
-
+def main():
+    print(" o  \nn+--\n >\\  ")
