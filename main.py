@@ -1,15 +1,20 @@
 import curses
 import time
 from curses import wrapper
+
+from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
 bullets = []
+zombies = []
 
-
+spawnrate = 40
 def main(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 100)
+    counter = 0
+    sh , sw = stdscr.getmaxyx()
 
     stdscr.clear()
     stdscr.refresh()
@@ -42,7 +47,21 @@ def main(stdscr):
             else:
                 bullets.remove(bullet)
 
+        for zombie in zombies:
+            if zombie.x > 0:
+                zombie.move("LEFT")
+            else:
+                zombies.remove(zombie)
+
+
+
         time.sleep(0.05)
+
+        counter += 1
+
+        if (counter == spawnrate):
+            zombies.append(Zombie(sw-10,player.y))
+            counter = 0
 
         stdscr.clear()
 
@@ -50,6 +69,10 @@ def main(stdscr):
         stdscr.addstr(player.y, 0, player.stance)
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
+        for zombie in zombies:
+            stdscr.addstr(zombie.y, zombie.x, "_<")
+            stdscr.addstr(zombie.y-1, zombie.x, "//")
+
 
         stdscr.refresh()
 
