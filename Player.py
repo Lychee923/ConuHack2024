@@ -13,7 +13,7 @@ class Player:
         self.y += direction
 
     #Walking stance
-    def __str__(self):
+    def get_stance(self):
         if self.walk_stance % 2 == 0:
             stance = " o  \nn+--\n />  "
         else:
