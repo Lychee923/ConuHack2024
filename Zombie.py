@@ -1,9 +1,9 @@
 class Zombie:
     
     head = "_<"
-    legs1 = "/\\"
+    legs1 = "<\\"
     
-    legs2 = "\\/"
+    legs2 = "/<"
     
     
     def __init__(self, x,y, hp=3, speed =2):

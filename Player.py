@@ -17,6 +17,3 @@ Walking:
 " o  \nn+--\n />  "
 " o  \nn+--\n >\\  "
 '''
-
-def main():
-    print(" o  \nn+--\n >\\  ")
