@@ -3,6 +3,8 @@ class Player:
 
     def __init__(self, y, hp):
         self.y = y
+        self.width = 4
+        self.height = 3
         self.hp = hp
         self.sprite = " o  \nn+--\n /\\  "
 
