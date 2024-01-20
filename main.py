@@ -10,21 +10,25 @@ def main(stdscr):
     stdscr.refresh()
 
     player_pad = curses.newpad(50, 5)
-    player_pad.addstr(player.y, 0, player.sprite)
-    stdscr.addstr(player.y, 0, player.sprite)
+    player_pad.addstr(player.y, 0, player)
+    stdscr.addstr(player.y, 0, player)
 
     while True:
-        key = stdscr.getkey()
+        #Make sure wrong input will come out as None
+        try: 
+            key = stdscr.getkey()
+        except: 
+            key = None
 
         if key == "KEY_UP":
-            player.y -= 1
+            player.move(-1)
         elif key == "KEY_DOWN":
-            player.y += 1
+            player.move(1)
 
         # player_pad.clear()
         # player_pad.refresh(0, 0, player.y, 0, player.height - 1 + player.y, player.width)
         stdscr.clear()
-        stdscr.addstr(player.y, 0, player.sprite)
+        stdscr.addstr(player.y, 0, player)
         stdscr.refresh()
 
     stdscr.getch()
