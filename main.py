@@ -26,15 +26,20 @@ def main(stdscr):
 
         if key == "KEY_UP" and player.y > 0:
             player.y -= 1
+            # player.change_stance()
         elif key == "KEY_DOWN" and player.y + player.height < screen_height:
             player.y += 1
+            # player.change_stance()
         elif key == " ":
-            bullets.append(Bullet(player.width + 1, player.y, 1))
+            bullets.append(Bullet(player.width + 1, player.y + 1, 1))
         elif key == "p":    # exit program
             player.y += 10000
 
         for bullet in bullets:
-            bullet.move()
+            if bullet.x < screen_width - 1:
+                bullet.move()
+            else:
+                bullets.remove(bullet)
 
         time.sleep(0.05)
 
