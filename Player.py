@@ -6,8 +6,9 @@ class Player:
         self.width = 4
         self.height = 3
         self.hp = hp
+        self.tick = 0
         self.walk_stance = 0
-        self.counter = 0
+        self.stance = " o  \nn+--\n /\\  "
 
 
     #Moving up and down
@@ -16,15 +17,15 @@ class Player:
 
     #Get walking stance
     def get_stance(self):
-        if  self.counter % 4 == 0:
+        if  self.tick % 4 == 0:
             if self.walk_stance % 2 == 0:
-                stance = " o  \nn+--\n />  "
+                self.stance = " o  \nn+--\n />  "
             else:
-                stance = " o  \nn+--\n >\\  "
+                self.stance = " o  \nn+--\n >\\  "
             self.walk_stance += 1     
-        self.counter += 1
+        self.tick += 1
         
-        return stance
+        return self.stance
 
 
 
