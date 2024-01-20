@@ -69,7 +69,14 @@ def main(stdscr):
             stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
             stdscr.addstr(zombie.y, zombie.x, "_<")
-            stdscr.addstr(zombie.y-1, zombie.x, "//")
+            stdscr.addstr(zombie.y-1, zombie.x, "/\\")
+
+        for bullet in bullets:
+            for i in zombies:
+                if(i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x -1):
+                    if(i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y -1):
+                        bullets.remove(bullet)
+                        zombies.remove(i)
 
 
         stdscr.refresh()
