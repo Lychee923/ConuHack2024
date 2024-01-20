@@ -10,11 +10,13 @@ bullets = []
 zombies = []
 
 spawnrate = 40
+
+
 def main(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 100)
     counter = 0
-    sh , sw = stdscr.getmaxyx()
+    sh, sw = stdscr.getmaxyx()
 
     stdscr.clear()
     stdscr.refresh()
@@ -53,13 +55,11 @@ def main(stdscr):
             else:
                 zombies.remove(zombie)
 
-
-
         time.sleep(0.05)
 
         counter += 1
 
-        if (counter == spawnrate):
+        if counter == spawnrate:
             zombies.append(Zombie(sw-10,player.y))
             counter = 0
 
@@ -71,19 +71,16 @@ def main(stdscr):
             stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
             stdscr.addstr(zombie.y, zombie.x, "_<")
-            stdscr.addstr(zombie.y-1, zombie.x, "/\\")
+            stdscr.addstr(zombie.y+1, zombie.x, "/\\")
 
         for bullet in bullets:
             for i in zombies:
-                if(i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x -1):
-                    if(i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y -1):
+                if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x -1:
+                    if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y -1:
                         bullets.remove(bullet)
                         zombies.remove(i)
 
-
         stdscr.refresh()
-
-    stdscr.getch()
 
 
 wrapper(main)
