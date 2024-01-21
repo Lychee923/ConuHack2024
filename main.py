@@ -1,5 +1,6 @@
 import curses
 import time
+import random
 from curses import wrapper
 
 from Zombie import Zombie
@@ -27,7 +28,7 @@ def main(stdscr):
 
     while True:
         # Make sure wrong input will come out as None
-        try: 
+        try:
             key = stdscr.getkey()
         except:
             key = None
@@ -40,7 +41,7 @@ def main(stdscr):
             # player.change_stance()
         elif key == " ":
             bullets.append(Bullet(player.width + 1, player.y + 1, 1))
-        elif key == "p":    # exit program
+        elif key == "p":  # exit program
             player.y += 10000
 
         for bullet in bullets:
@@ -52,20 +53,20 @@ def main(stdscr):
         for zombie in zombies:
             if zombie.x > 0:
                 zombie.move("LEFT")
-                if (player.y > zombie.y and zombie.counter >= random.randrange(10, 40)):
+                if player.y > zombie.y and zombie.counter >= random.randrange(10, 40):
                     zombie.move("UP")
                     zombie.counter = 0
-                elif (player.y < zombie.y and zombie.counter >= random.randrange(10, 40)):
+                elif player.y < zombie.y and zombie.counter >= random.randrange(10, 40):
                     zombie.move("DOWN")
                     zombie.counter = 0
             else:
                 zombies.remove(zombie)
 
         time.sleep(0.05)
-        if(random.getrandbits(1)):
+        if random.getrandbits(1):
             counter += 1
             for zombie in zombies:
-                zombie.counter+=1
+                zombie.counter += 1
 
         if counter == spawnrate:
             zombies.append(Zombie(screen_width - 2, player.y))
@@ -79,19 +80,17 @@ def main(stdscr):
             stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
             stdscr.addstr(zombie.y, zombie.x, zombie.face)
-            stdscr.addstr(zombie.y+1, zombie.x, zombie.face)
+            stdscr.addstr(zombie.y + 1, zombie.x, zombie.face)
 
         for bullet in bullets:
-            for i in zombies:
-                if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x - 1:
-                    if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y - 1:
+            for zombie in zombies:
+                if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
+                    if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
-                        zombies.remove(i)
-                        points += round(1/i.x * 25 + 5)
+                        zombies.remove(zombie)
+                        points += round(1 / zombie.x * 25 + 5)
 
         stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
-
-        stdscr.addstr(screen_height -1, screen_width - len(str(points))-10, f"Points: {str(points)}")
 
         stdscr.refresh()
 
