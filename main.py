@@ -8,7 +8,7 @@ from Player import Player
 from Bullet import Bullet
 
 MARK = "====================                    "
-HYPPER_BULLETS = ">"
+HYPPER_BULLETS = "●"
 
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
@@ -100,6 +100,12 @@ def play(stdscr):
             exit(0)
 
         for bullet in bullets:
+            #Hypper bullet speed
+            if bullet_counter >= 10:
+                bullet.speed = 2
+            else:
+                bullet.speed = 1
+                
             if bullet.x < screen_width - 1:
                 bullet.move()
             else:
@@ -195,7 +201,7 @@ def play(stdscr):
                 if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1) and \
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
-                    # Hypper bullet
+                    #Hypper bullet damage
                     if bullet_counter >= 10:
                         bullet.damage = 3
                     else:
@@ -227,7 +233,7 @@ def play(stdscr):
                 if i < 10:
                     bullet_string += "-"
                     # Hypper bullet text
-                    stdscr.addstr(1, screen_width // 2 - 10, "Hyper Bullet Time!!!")
+                    stdscr.addstr(1, screen_width // 2 - 10, "Bullet Blitz!!!")
                 else:
                     bullet_string += " "
 
@@ -237,7 +243,7 @@ def play(stdscr):
         # Mag constructurer
         for i in range(10 - bullet_counter):
             if 0 < i < 10:
-                bullet_string += "|"
+                bullet_string += "⭑"
             elif i == 0:
                 bullet_string += HYPPER_BULLETS #Add inHypper bullets indicator
             else:
