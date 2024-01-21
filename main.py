@@ -7,35 +7,40 @@ from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
-def main(stdscr):
-    points = play(stdscr)
+
+def start_screen(stdscr):
+    screen_height, screen_width = stdscr.getmaxyx()
+    stdscr.clear()
+    stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 9, "Press 'p' to Start")
+    stdscr.refresh()
+    key = stdscr.getkey()
+    if key == "p":
+        play(stdscr)
+
+
+def death_screen(stdscr, score):
+    screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
-    stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
+    stdscr.addstr(int(screen_height / 3), int(screen_width / 2) - 4, f"GAME OVER")
+    stdscr.addstr(int(screen_height / 3) + 1, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
+                  f"Score: {score}")
+    stdscr.addstr(int(screen_height / 3) + 2, int(screen_width / 2) - 20, f"Press R to Restart. Any Other Key to Quit")
     stdscr.refresh()
     stdscr.nodelay(False)
-    time.sleep(2)
+    time.sleep(1)
     key = stdscr.getkey()
 
-    while key == "r":
-        stdscr.clear()
-
-        points = play(stdscr)
-        stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
-        stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
-        stdscr.refresh()
-        stdscr.nodelay(False)
-        time.sleep(2)
-        key = stdscr.getkey()
+    if key == "r":
+        play(stdscr)
+    else:
+        stdscr.addstr(10000, 10000, "crash")
 
 
 def play(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 5)
     hp = player.hp
-
-
 
     bullets = []
     zombies = []
@@ -57,9 +62,7 @@ def play(stdscr):
     stdscr.addstr(player.y, 0, player.stance)
     stdscr.nodelay(True)
 
-    laneMarkY = screen_height //2;
-    
-
+    laneMarkY = screen_height // 2
 
     while True:
         # Make sure wrong input will come out as None
@@ -117,25 +120,16 @@ def play(stdscr):
             for zombie in zombies:
                 zombie.counter += 1
 
-
-
-
-
         if not gameover:
             if counter == spawnrate:
-<<<<<<< Updated upstream
                 zombies.append(Zombie(screen_width - 5, random.randrange(1, screen_height - 5)))
-=======
-                zombies.append(Zombie(screen_width - 3, random.randrange(5, screen_height - 6)))
->>>>>>> Stashed changes
                 counter = 0
 
         stdscr.clear()
 
-        for i in range(1,screen_width):
-            stdscr.addstr(3,i, "_")
-            stdscr.addstr(screen_height-4, i, "_")
-
+        for i in range(1, screen_width):
+            stdscr.addstr(3, i, "_")
+            stdscr.addstr(screen_height - 4, i, "_")
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
@@ -152,25 +146,21 @@ def play(stdscr):
 
                     if hp == 0:
                         gameover = True
-                        return points
+                        death_screen(stdscr, points)
 
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
- 
-  
-        #Bullets zombie collision
+
+        # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
                 if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
                     if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
-                        zombie.hp -= 1  
-                        if zombie.hp == 0:                                                        
+                        zombie.hp -= 1
+                        if zombie.hp == 0:
                             zombies.remove(zombie)
                             points += round(1 / zombie.x * 25 + 5)
-                            
-
-
 
         hp_string = "HP: "
         for i in range(player.hp):
@@ -203,4 +193,4 @@ def play(stdscr):
         stdscr.refresh()
 
 
-wrapper(main)
+wrapper(start_screen)
