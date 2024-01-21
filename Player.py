@@ -1,7 +1,7 @@
 class Player:
     tick = 0
     walk_stance = 0
-    stance = " o  \nn+--\n /\\  "
+    stance = " o  \nn+--\n/\\  "
     
     def __init__(self, y, hp):
         self.y = y
