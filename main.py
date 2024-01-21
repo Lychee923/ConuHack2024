@@ -195,7 +195,6 @@ def play(stdscr):
             for zombie in zombies:
                 if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1) and \
                 (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
-                    bullets.remove(bullet)
                     
                     #Hypper bullet
                     if bullet_counter >= 10:
@@ -203,14 +202,17 @@ def play(stdscr):
                     else:
                         bullet.damage = 1
 
+                    bullets.remove(bullet)
                     zombie.take_damage(bullet.damage)
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
+                        '''
                         n = 30
                         while n > 0:
                             stdscr.addstr(zombie.y, zombie.x, zombie.deadth_animation())
                             n -= 1
+                        '''
                         points += round(1 / zombie.x * 25 + 5)
 
         hp_string = "HP: "
