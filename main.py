@@ -57,7 +57,7 @@ def play(stdscr):
     bullets = []
     zombies = []
 
-    spawnrate = 6
+    spawnrate = 10
 
     gameover = False
     counter = 0
