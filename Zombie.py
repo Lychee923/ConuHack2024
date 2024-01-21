@@ -13,7 +13,6 @@ class Zombie:
     leg_limp1 = " <"
     leg_limp2 = " /"
     alive = True
-    tick = 0
     dead1 = "+"
     dead2 = "<>"
     dead3 = "| |"
@@ -26,12 +25,16 @@ class Zombie:
         self.y = y
         self.alive = True
         self.leg_stance = 0
+        self.leg = "/\\"
         self.counter = 0
+        self.tick = 0
         if (random.getrandbits(1)):
             self.face = Zombie.face1
         else:
             self.face = Zombie.face2
-        self.leg = "/\\"
+
+
+        
         
 
     def move(self, direction):
@@ -60,7 +63,7 @@ class Zombie:
             elif self.face == Zombie.face2:
                 self.face = Zombie.face22
 
-        if Zombie.tick % 4 == 0:
+        if self.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
                 if self.hp == 1:
                     self.leg = Zombie.leg_limp1
@@ -72,7 +75,7 @@ class Zombie:
                 else:
                     self.leg = Zombie.leg_walk2
             self.leg_stance += 1
-        Zombie.tick += 1
+        self.tick += 1
 
 '''
     def deadth_animation(self):
