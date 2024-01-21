@@ -223,7 +223,7 @@ def play(stdscr):
         # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
-                if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x + 2 or zombie.x == bullet.x +3) and \
+                if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x - 2 or zombie.x == bullet.x -3) and \
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
                     # Hypper bullet damage
