@@ -21,9 +21,13 @@ def main(stdscr):
     gameover = False
     counter = 0
     points = 0
-
+    counterTree = 0;
     stdscr.clear()
     stdscr.refresh()
+    bulletCounter = 0
+    Fire = True
+
+    reloadTimer = 0;
 
     player.update_stance()
     stdscr.addstr(player.y, 0, player.stance)
@@ -40,8 +44,12 @@ def main(stdscr):
             player.y -= 1
         elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
             player.y += 1
-        elif key == " ":
+            # player.change_stance()
+        elif key == " " and Fire:
+
             bullets.append(Bullet(player.width + 1, player.y + 1, 1))
+            bulletCounter += 1
+
         elif key == "p":  # exit program
             player.y += 10000
 
@@ -50,6 +58,16 @@ def main(stdscr):
                 bullet.move()
             else:
                 bullets.remove(bullet)
+
+        if (bulletCounter > 12):
+            Fire = False
+            reloadTimer += 1
+            if reloadTimer >= 40:
+                bulletCounter = 0
+                Fire = True
+        else:
+            reloadTimer = 0
+
 
         for zombie in zombies:
             if zombie.x > 0:
@@ -66,11 +84,12 @@ def main(stdscr):
         time.sleep(0.05)
         if random.getrandbits(1):
             counter += 1
+            counterTree += 1
             for zombie in zombies:
                 zombie.counter += 1
 
         if counter == spawnrate:
-            zombies.append(Zombie(screen_width - 2, random.randrange(1,screen_height-5)))
+            zombies.append(Zombie(screen_width - 2, random.randrange(1, screen_height - 5)))
             counter = 0
 
         stdscr.clear()
