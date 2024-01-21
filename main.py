@@ -26,6 +26,7 @@ def main(stdscr):
     stdscr.refresh()
     bulletCounter = 0
     Fire = True
+    bullet_string = "Bullets:"
 
     reloadTimer = 0
 
@@ -59,9 +60,13 @@ def main(stdscr):
             else:
                 bullets.remove(bullet)
 
-        if (bulletCounter > 12):
+        if (bulletCounter >= 20):
             Fire = False
             reloadTimer += 1
+
+
+
+
             if reloadTimer >= 40:
                 bulletCounter = 0
                 Fire = True
@@ -128,7 +133,32 @@ def main(stdscr):
             else:
                 hp_string += "▢"
 
+        bullet_string = "Bullets: "
+        if (reloadTimer != 0 and reloadTimer % 2 == 0):
+            for i in range(reloadTimer // 2):
+                if i < 20:
+                    bullet_string += "-"
+                else:
+                    bullet_string += " "
+
+        if(reloadTimer == 40):
+            bullet_string = "Bullets: "
+
+
+
+
+
+        for i in range(20 - bulletCounter):
+            if i < 20:
+                bullet_string += "|"
+            else:
+                bullet_string += " "
+
+
+
+
         stdscr.addstr(screen_height - 1, 1, hp_string)
+        stdscr.addstr(screen_height - 1, 12, bullet_string)
         stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
 
         stdscr.refresh()
