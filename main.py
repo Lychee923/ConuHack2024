@@ -14,11 +14,14 @@ mark = "====================                    "
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 11, ">- TERMINAL ASSAULT -<")
     stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 9, "Press 'p' to Start")
     stdscr.refresh()
     key = stdscr.getkey()
     if key == "p":
         play(stdscr)
+    elif key == "q":
+        exit(0)
     else:
         start_screen(stdscr)
 
@@ -39,7 +42,7 @@ def death_screen(stdscr, score):
     if key == "r":
         play(stdscr)
     elif key == "q":
-        stdscr.addstr(10000, 10000, "crash")
+        exit(0)
     else:
         death_screen(stdscr, score)
 
@@ -91,7 +94,7 @@ def play(stdscr):
                 bullet_counter += 1
 
         if key == "q":  # exit program
-            player.y += 10000
+            exit(0)
 
         for bullet in bullets:
             if bullet.x < screen_width - 1:
