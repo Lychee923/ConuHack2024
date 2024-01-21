@@ -93,7 +93,7 @@ def main(stdscr):
 
         if not gameover:
             if counter == spawnrate:
-                zombies.append(Zombie(screen_width - 3, random.randrange(1, screen_height - 5)))
+                zombies.append(Zombie(screen_width - 5, random.randrange(1, screen_height - 5)))
                 counter = 0
 
         stdscr.clear()
@@ -102,7 +102,7 @@ def main(stdscr):
         stdscr.addstr(player.y, 0, player.stance)
         for zombie in zombies:
             zombie.update_leg()
-            stdscr.addstr(zombie.y, zombie.x, zombie.face)
+            stdscr.addstr(zombie.y, zombie.x, zombie.big_face)
             stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
         for zombie in zombies:
@@ -116,14 +116,21 @@ def main(stdscr):
 
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
-
+ 
+  
+        #Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
                 if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
                     if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
-                        zombies.remove(zombie)
-                        points += round(1 / zombie.x * 25 + 5)
+                        zombie.hp -= 1  
+                        if zombie.hp == 0:                                                        
+                            zombies.remove(zombie)
+                            points += round(1 / zombie.x * 25 + 5)
+                            
+
+
 
         hp_string = "HP: "
         for i in range(player.hp):

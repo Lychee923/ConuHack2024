@@ -1,12 +1,13 @@
 
 class Zombie:
     face = "_&"
+    big_face = "[´ཀ`]"
     leg1 = " <\\"
     leg2 = " /<"
     alive = True
     tick = 0
     leg_stance =0
-    leg = "||"
+    leg = "/\\"
     dead1 = " + "
     dead2 = "- -"
     dead3 = "<   >"
@@ -36,7 +37,7 @@ class Zombie:
             self.speed += 1
 
     def update_leg(self):
-        if self.tick % 6 == 0:
+        if self.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
                 self.leg = self.leg1
             else:
