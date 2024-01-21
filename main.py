@@ -9,30 +9,26 @@ from Bullet import Bullet
 
 
 def main(stdscr):
-
-
     points = play(stdscr)
     stdscr.clear()
 
-    stdscr.addstr(1,1, f"GAME OVER Points achieve{points}")
-    stdscr.addstr(2, 1, f"Press R to retart, any other keys to quit")
+    stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
+    stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
     stdscr.refresh()
     stdscr.nodelay(False)
     time.sleep(2)
     key = stdscr.getkey()
 
-    while(key == "r"):
+    while key == "r":
         stdscr.clear()
 
         points = play(stdscr)
         stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
-        stdscr.addstr(2, 1, f"Press R to retart, any other keys to quit")
+        stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
         stdscr.refresh()
         stdscr.nodelay(False)
         time.sleep(2)
         key = stdscr.getkey()
-
-
 
 
 def play(stdscr):
@@ -44,7 +40,6 @@ def play(stdscr):
     zombies = []
 
     spawnrate = 6
-
 
     gameover = False
     counter = 0
@@ -65,7 +60,6 @@ def play(stdscr):
         # Make sure wrong input will come out as None
         try:
             key = stdscr.getkey()
-
         except:
             key = None
 
@@ -75,7 +69,6 @@ def play(stdscr):
             elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
                 player.y += 1
             elif key == " " and fire:
-
 
                 bullets.append(Bullet(player.width + 1, player.y + 1, 1))
                 bullet_counter += 1
