@@ -4,8 +4,8 @@ import random
 class Zombie:
     face1 = "_&"
     face11 = " &"
-    #face2 = "_$"
-    #face22 = " $"
+    # face2 = "_$"
+    # face22 = " $"
     face2 = "[´ཀ`]"
     face22 = "[`ཀ´]"
     leg_walk1 = " <\\"
@@ -28,14 +28,10 @@ class Zombie:
         self.leg = "/\\"
         self.counter = 0
         self.tick = 0
-        if (random.getrandbits(1)):
+        if random.getrandbits(1):
             self.face = Zombie.face1
         else:
             self.face = Zombie.face2
-
-
-        
-        
 
     def move(self, direction):
         if direction == "LEFT":
@@ -53,8 +49,6 @@ class Zombie:
             self.speed += 1
         else:
             self.speed = 1
-
-
 
     def update_body(self):
         if self.hp <= 2:
@@ -76,15 +70,3 @@ class Zombie:
                     self.leg = Zombie.leg_walk2
             self.leg_stance += 1
         self.tick += 1
-
-'''
-    def deadth_animation(self):
-        time = self.tick % 20
-        if time < 6:
-            return self.dead1
-        elif time <= 13:
-            return self.dead2
-        else:
-            return self.dead3
-        self.tick += 1
-        '''

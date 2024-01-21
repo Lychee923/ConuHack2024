@@ -6,10 +6,6 @@ class Bullet:
         self.y = y
         self.damage = damage
         self.hyper = hyper
-        
-    
+
     def move(self):
         self.x += self.speed
-        
-        
-        
