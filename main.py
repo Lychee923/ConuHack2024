@@ -1,5 +1,4 @@
 import curses
-import random
 import time
 from curses import wrapper
 
@@ -61,7 +60,7 @@ def main(stdscr):
         counter += 1
 
         if counter == spawnrate:
-            zombies.append(Zombie(screen_width - 10, player.y))
+            zombies.append(Zombie(screen_width - 2, player.y))
             counter = 0
 
         stdscr.clear()
@@ -79,8 +78,10 @@ def main(stdscr):
                 if i.x == bullet.x+1 or i.x == bullet.x or i.x == bullet.x - 1:
                     if i.y == bullet.y+1 or i.y == bullet.y or i.y == bullet.y - 1:
                         bullets.remove(bullet)
-                        points += round(1/i.x * 20 + 5)
                         zombies.remove(i)
+                        points += round(1/i.x * 25 + 5)
+
+        stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
 
         stdscr.refresh()
 
