@@ -9,6 +9,9 @@ from Player import Player
 from Bullet import Bullet
 
 MARK = "====================                    "
+
+grass ="\" \" , \" , \' \'    ,    \"          \" \" , \" , \'\' \"  ,    \"        \"        "
+
 HYPPER_BULLETS = "●"
 AMMO = 5
 
@@ -117,9 +120,15 @@ def play(stdscr):
                 bullet.speed = 2
             else:
                 bullet.speed = 1
+<<<<<<< Updated upstream
 
             if bullet.x < screen_width - 2:
                 bullet.move()
+=======
+            
+            if bullet.x < screen_width - 5:
+                bullet.move() 
+>>>>>>> Stashed changes
             else:
                 bullets.remove(bullet)
 
@@ -174,6 +183,9 @@ def play(stdscr):
             if (player.y == laneMarkY or player.y + 1 == laneMarkY or player.y + 2 == laneMarkY) and i <= 3:
                 continue
             stdscr.addstr(laneMarkY, i, MARK[(i + environment_counter // 2) % 40])
+
+        for i in range(2,screen_width-2):
+            stdscr.addstr(2, i, grass[(i + environment_counter // 2) % 72])
 
         if not gameover:
             for zombie in zombies:
