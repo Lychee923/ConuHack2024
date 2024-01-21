@@ -120,15 +120,10 @@ def play(stdscr):
                 bullet.speed = 2
             else:
                 bullet.speed = 1
-<<<<<<< Updated upstream
 
-            if bullet.x < screen_width - 2:
-                bullet.move()
-=======
             
             if bullet.x < screen_width - 5:
-                bullet.move() 
->>>>>>> Stashed changes
+                bullet.move()
             else:
                 bullets.remove(bullet)
 
