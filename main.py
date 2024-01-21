@@ -207,6 +207,10 @@ def play(stdscr):
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
+                        n = 30
+                        while n > 0:
+                            stdscr.addstr(zombie.y, zombie.x, zombie.deadth_animation())
+                            n -= 1
                         points += round(1 / zombie.x * 25 + 5)
 
         hp_string = "HP: "
