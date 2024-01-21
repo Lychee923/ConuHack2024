@@ -83,6 +83,8 @@ def play(stdscr):
     bullet_counter = 0
     fire = True
 
+    check = False
+
     reload_timer = 0
 
     player.update_stance()
@@ -232,10 +234,14 @@ def play(stdscr):
 
                     zombie.take_damage(bullet.damage)
                     bullets.remove(bullet)
+
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
                         points += round(1 / zombie.x * 25 + 5)
+
+                    break
+
 
         hp_string = "HP: "
         for i in range(player.hp):
