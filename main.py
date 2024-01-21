@@ -9,6 +9,7 @@ from Bullet import Bullet
 
 MARK = "====================                    "
 HYPPER_BULLETS = "●"
+AMMO = 5
 
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
@@ -100,22 +101,22 @@ def play(stdscr):
             exit(0)
 
         for bullet in bullets:
-            #Hypper bullet speed
-            if bullet_counter >= 10:
+            #Hypper bullet speed <----------------
+            if bullet_counter >= AMMO:
                 bullet.speed = 2
             else:
                 bullet.speed = 1
-
+            
             if bullet.x < screen_width - 1:
                 bullet.move()
             else:
                 bullets.remove(bullet)
 
-        if bullet_counter >= 10:
+        if bullet_counter >= AMMO:
             fire = False
             reload_timer += 1
 
-            if reload_timer >= 20:
+            if reload_timer >= AMMO*2:
                 bullet_counter = 0
                 fire = True
         else:
@@ -190,8 +191,8 @@ def play(stdscr):
 
         for bullet in bullets:
             # Hyper bullets
-            if bullet.x < screen_width: #Prevent bullets falling out of screen
-                if bullet_counter >= 10:
+            if bullet.x < screen_width:
+                if bullet_counter >= AMMO:
                     stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
                 else:
                     stdscr.addstr(bullet.y, bullet.x, "-")
@@ -203,7 +204,7 @@ def play(stdscr):
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
                     #Hypper bullet damage
-                    if bullet_counter >= 10:
+                    if bullet_counter >= AMMO:
                         bullet.damage = 2
                     else:
                         bullet.damage = 1
@@ -234,16 +235,16 @@ def play(stdscr):
                 if i < 10:
                     bullet_string += "-"
                     # Hypper bullet text
-                    stdscr.addstr(1, screen_width // 2 - 10, "Bullet Blitz!!!")
+                    stdscr.addstr(1, screen_width // 2 - 10, "Extra Impact!!!")
                 else:
                     bullet_string += " "
 
-        if reload_timer == 20:
+        if reload_timer == AMMO*2:
             bullet_string = "Bullets: "
 
         # Mag constructurer
-        for i in range(10 - bullet_counter):
-            if 0 < i < 10:
+        for i in range(AMMO - bullet_counter):
+            if 0 < i < AMMO :
                 bullet_string += "⭑"
             elif i == 0:
                 bullet_string += HYPPER_BULLETS #Add inHypper bullets indicator
@@ -252,7 +253,7 @@ def play(stdscr):
 
         stdscr.addstr(screen_height - 2, 1, hp_string)
         stdscr.addstr(screen_height - 1, 1, bullet_string)
-        # stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+        #stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
         stdscr.addstr(1, 1, f"Points: {str(points)}")
 
         stdscr.refresh()
