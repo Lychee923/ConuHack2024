@@ -105,7 +105,7 @@ def play(stdscr):
                 bullet.speed = 2
             else:
                 bullet.speed = 1
-                
+
             if bullet.x < screen_width - 1:
                 bullet.move()
             else:
@@ -190,10 +190,11 @@ def play(stdscr):
 
         for bullet in bullets:
             # Hyper bullets
-            if bullet_counter >= 10:
-                stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
-            else:
-                stdscr.addstr(bullet.y, bullet.x, "-")
+            if bullet.x < screen_width: #Prevent bullets falling out of screen
+                if bullet_counter >= 10:
+                    stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
+                else:
+                    stdscr.addstr(bullet.y, bullet.x, "-")
 
         # Bullets zombie collision
         for bullet in bullets:
@@ -203,7 +204,7 @@ def play(stdscr):
 
                     #Hypper bullet damage
                     if bullet_counter >= 10:
-                        bullet.damage = 3
+                        bullet.damage = 2
                     else:
                         bullet.damage = 1
 
