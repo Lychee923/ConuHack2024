@@ -49,7 +49,7 @@ class Zombie:
 
     def update_body(self):
         if self.hp <= 2:
-            self.face = self.angry_face2
+            self.face = self.angry_face
 
         if self.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
