@@ -10,6 +10,7 @@ from Bullet import Bullet
 
 mark = "[==================]                    "
 
+
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
