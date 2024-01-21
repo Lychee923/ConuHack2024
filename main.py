@@ -21,13 +21,13 @@ def main(stdscr):
     gameover = False
     counter = 0
     points = 0
-    counterTree = 0;
+    counterTree = 0
     stdscr.clear()
     stdscr.refresh()
     bulletCounter = 0
     Fire = True
 
-    reloadTimer = 0;
+    reloadTimer = 0
 
     player.update_stance()
     stdscr.addstr(player.y, 0, player.stance)
