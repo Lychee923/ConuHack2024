@@ -39,7 +39,7 @@ def death_screen(stdscr, score, highscore):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(int(screen_height / 2) - 4, int(screen_width / 2) - 4, f"GAME OVER", curses.A_BOLD)
+    stdscr.addstr(int(screen_height / 2) - 4, int(screen_width / 2) - 5, f"GAME OVER!", curses.A_BOLD)
     stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - int(len(f"Highscore: {highscore}") / 2),
                   f"Highscore: {highscore}")
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
@@ -101,8 +101,8 @@ def play(stdscr):
             elif key == "KEY_DOWN" and player.y + player.height < screen_height - 3:
                 player.y += 1
             elif key == " " and fire:
-                if bullet_counter >= AMMO-1:
-                    bullets.append(Bullet(player.width + 1, player.y + 1, 1,True))
+                if bullet_counter >= AMMO - 1:
+                    bullets.append(Bullet(player.width + 1, player.y + 1, 1, True))
 
                 else:
                     bullets.append(Bullet(player.width + 1, player.y + 1, 1))
@@ -112,12 +112,12 @@ def play(stdscr):
             exit(0)
 
         for bullet in bullets:
-            #Hypper bullet speed <----------------
+            # Hyper bullet speed <----------------
             if bullet.hyper:
                 bullet.speed = 2
             else:
                 bullet.speed = 1
-            
+
             if bullet.x < screen_width - 2:
                 bullet.move()
             else:
@@ -127,7 +127,7 @@ def play(stdscr):
             fire = False
             reload_timer += 1
 
-            if reload_timer >= AMMO*2:
+            if reload_timer >= AMMO * 2:
                 bullet_counter = 0
                 fire = True
         else:
@@ -221,12 +221,11 @@ def play(stdscr):
                 if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1) and \
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
-                    #Hypper bullet damage
+                    # Hypper bullet damage
                     if bullet.hyper:
                         bullet.damage = 3
                     else:
                         bullet.damage = 1
-
 
                     zombie.take_damage(bullet.damage)
                     bullets.remove(bullet)
@@ -256,21 +255,21 @@ def play(stdscr):
                 else:
                     bullet_string += " "
 
-        if reload_timer == AMMO*2:
+        if reload_timer == AMMO * 2:
             bullet_string = "Bullets: "
 
         # Mag constructurer
         for i in range(AMMO - bullet_counter):
-            if 0 < i < AMMO :
+            if 0 < i < AMMO:
                 bullet_string += "*"
             elif i == 0:
-                bullet_string += HYPPER_BULLETS #Add inHypper bullets indicator
+                bullet_string += HYPPER_BULLETS  # Add inHypper bullets indicator
             else:
                 bullet_string += " "
 
         stdscr.addstr(screen_height - 2, 1, hp_string)
         stdscr.addstr(screen_height - 1, 1, bullet_string)
-        #stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+        # stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
         stdscr.addstr(1, 1, f"Points: {str(points)}")
 
         stdscr.refresh()
