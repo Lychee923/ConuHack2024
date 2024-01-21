@@ -59,11 +59,11 @@ def main(stdscr):
             else:
                 bullets.remove(bullet)
 
-        if bullet_counter >= 20:
+        if bullet_counter >= 10:
             fire = False
             reload_timer += 1
 
-            if reload_timer >= 40:
+            if reload_timer >= 20:
                 bullet_counter = 0
                 fire = True
         else:
@@ -131,16 +131,16 @@ def main(stdscr):
         bullet_string = "Bullets: "
         if reload_timer != 0 and reload_timer % 2 == 0:
             for i in range(reload_timer // 2):
-                if i < 20:
+                if i < 10:
                     bullet_string += "-"
                 else:
                     bullet_string += " "
 
-        if reload_timer == 40:
+        if reload_timer == 20:
             bullet_string = "Bullets: "
 
-        for i in range(20 - bullet_counter):
-            if i < 20:
+        for i in range(10 - bullet_counter):
+            if i < 10:
                 bullet_string += "|"
             else:
                 bullet_string += " "

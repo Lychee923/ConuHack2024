@@ -1,8 +1,8 @@
 
 class Zombie:
     face = "_&"
-    leg1 = "<\\"
-    leg2 = "/<"
+    leg1 = " <\\"
+    leg2 = " /<"
     alive = True
     tick = 0
     leg_stance =0
