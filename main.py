@@ -130,12 +130,8 @@ def play(stdscr):
 
         if not gameover:
             if counter == spawnrate:
-<<<<<<< HEAD
-                zombies.append(Zombie(screen_width - 5  , random.randrange(1, screen_height - 5)))
-=======
                 zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
 
->>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                 counter = 0
 
         stdscr.clear()
@@ -158,13 +154,8 @@ def play(stdscr):
 
         #Player zombie collision
         for zombie in zombies:
-<<<<<<< HEAD
-            if zombie.x == player.width or zombie.x == player.width + 1:
-                if zombie.y == player.y + 1 or zombie.y == player.y or zombie.y == player.y - 1:
-=======
             if zombie.x <= player.width:
                 if player.y - 1 <= zombie.y <= player.y + 2:
->>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                     zombies.remove(zombie)
                     hp -= 1
 
@@ -181,14 +172,9 @@ def play(stdscr):
                 if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
                     if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
-<<<<<<< HEAD
                         zombie.take_damage()
                         #Check if zombie dead
                         if not zombie.alive:
-=======
-                        zombie.hp -= 1
-                        if zombie.hp == 0:
->>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                             zombies.remove(zombie)
                             points += round(1 / zombie.x * 25 + 5)
 
