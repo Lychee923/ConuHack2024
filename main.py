@@ -10,7 +10,7 @@ from Bullet import Bullet
 
 MARK = "====================                    "
 
-grass ="\" \" , \" , \' \'    ,    \"          \" \" , \" , \'\' \"  ,    \"        \"        "
+grass = "\" \" , \" , \' \'    ,    \"          \" \" , \" , \'\' \"  ,    \"        \"        "
 
 HYPPER_BULLETS = "●"
 AMMO = 5
@@ -121,7 +121,6 @@ def play(stdscr):
             else:
                 bullet.speed = 1
 
-            
             if bullet.x < screen_width - 5:
                 bullet.move()
             else:
@@ -157,10 +156,9 @@ def play(stdscr):
             for zombie in zombies:
                 zombie.counter += 1
 
-       
         if not gameover and counter >= spawnrate:
-                zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
-                counter = 0
+            zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
+            counter = 0
 
         stdscr.clear()
         environment_counter += 1
@@ -177,7 +175,7 @@ def play(stdscr):
                 continue
             stdscr.addstr(laneMarkY, i, MARK[(i + environment_counter // 2) % 40])
 
-        for i in range(2,screen_width-2):
+        for i in range(2, screen_width - 2):
             stdscr.addstr(2, i, grass[(i + environment_counter // 2) % 72])
 
         if not gameover:
@@ -223,7 +221,8 @@ def play(stdscr):
         # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
-                if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x + 2 or zombie.x == bullet.x +3) and \
+                if (
+                        zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x + 2 or zombie.x == bullet.x + 3) and \
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
                     # Hypper bullet damage
@@ -237,12 +236,6 @@ def play(stdscr):
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
-                        '''
-                        n = 30
-                        while n > 0:
-                            stdscr.addstr(zombie.y, zombie.x, zombie.deadth_animation())
-                            n -= 1
-                        '''
                         points += round(1 / zombie.x * 25 + 5)
 
         hp_string = "HP: "
@@ -274,7 +267,6 @@ def play(stdscr):
 
         stdscr.addstr(screen_height - 2, 1, hp_string)
         stdscr.addstr(screen_height - 1, 1, bullet_string)
-        # stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
         stdscr.addstr(1, 1, f"Points: {str(points)}")
 
         stdscr.refresh()
