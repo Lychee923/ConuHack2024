@@ -6,7 +6,7 @@ class Zombie:
     alive = True
     tick = 0
     leg_stance =0
-    leg = "/\\"
+    leg = "||"
     dead1 = " + "
     dead2 = "- -"
     dead3 = "<   >"
