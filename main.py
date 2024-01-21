@@ -97,8 +97,9 @@ def main(stdscr):
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
         for zombie in zombies:
+            zombie.update_leg()
             stdscr.addstr(zombie.y, zombie.x, zombie.face)
-            stdscr.addstr(zombie.y + 1, zombie.x, zombie.face)
+            stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
         for zombie in zombies:
             if zombie.x == player.width:

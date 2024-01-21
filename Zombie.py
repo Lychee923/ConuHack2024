@@ -1,14 +1,23 @@
 
 class Zombie:
-    face = "´ཀ`"
+    face = "_&"
+    leg1 = " <\\"
+    leg2 = " /<"
+    alive = True
+    tick = 0
+    leg_stance =0
+    leg = "/\\"
+    dead1 = " + "
+    dead2 = "- -"
+    dead3 = "<   >"
 
     def __init__(self, x, y, hp=3, speed=1):
         self.hp = hp
         self.speed = speed
         self.x = x
         self.y = y
-        self.alive = True
-        self.counter = 0
+        
+
     def move(self, direction):
         if direction == "LEFT":
             self.x -= self.speed
@@ -23,3 +32,15 @@ class Zombie:
             self.alive = False
         if self.hp == 2:
             self.speed += 1
+
+    def update_leg(self):
+        if self.tick % 6 == 0:
+            if self.leg_stance % 2 == 0:
+                self.leg = self.leg1
+            else:
+                self.leg = self.leg2
+            self.leg_stance += 1
+        self.tick += 1
+
+    def zombiw_dead():
+        pass
