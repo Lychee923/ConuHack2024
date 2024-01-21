@@ -8,13 +8,13 @@ from Player import Player
 from Bullet import Bullet
 
 
-mark = "[==================]                    "
+mark = "====================                    "
 
 
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
-    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 11, ">- TERMINAL ASSAULT -<")
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 15, "[ n+-- TERMINAL ASSAULT _&_& ]")
     stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 9, "Press 'p' to Start")
     stdscr.refresh()
     key = stdscr.getkey()
@@ -57,7 +57,7 @@ def play(stdscr):
     bullets = []
     zombies = []
 
-    spawnrate = 6
+    spawnrate = 10
 
     gameover = False
     counter = 0
@@ -140,8 +140,7 @@ def play(stdscr):
 
         stdscr.clear()
         environmentCounter += 1
-        for i in range(screen_width):
-            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
+
 
         for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
@@ -149,6 +148,12 @@ def play(stdscr):
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
+
+        for i in range(screen_width):
+            if((player.y == laneMarkY or player.y+1 == laneMarkY or player.y+2 == laneMarkY)and i<=3):
+                continue
+            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
+
         if not gameover:
             for zombie in zombies:
                 zombie.update_body()
