@@ -34,13 +34,14 @@ def death_screen(stdscr, score):
     stdscr.addstr(int(screen_height / 2) + 1, int(screen_width / 2) - 4, f"Quit (q)")
     stdscr.refresh()
     stdscr.nodelay(False)
-    time.sleep(1)
     key = stdscr.getkey()
 
     if key == "r":
         play(stdscr)
     elif key == "q":
         stdscr.addstr(10000, 10000, "crash")
+    else:
+        death_screen(stdscr, score)
 
 
 def play(stdscr):
