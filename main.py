@@ -7,8 +7,8 @@ from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
-mark = "====================                    "
-
+MARK = "====================                    "
+HYPPER_BULLETS = ">"
 
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
@@ -155,7 +155,7 @@ def play(stdscr):
         for i in range(screen_width):
             if (player.y == laneMarkY or player.y + 1 == laneMarkY or player.y + 2 == laneMarkY) and i <= 3:
                 continue
-            stdscr.addstr(laneMarkY, i, mark[(i + environment_counter // 2) % 40])
+            stdscr.addstr(laneMarkY, i, MARK[(i + environment_counter // 2) % 40])
 
         if not gameover:
             for zombie in zombies:
@@ -186,7 +186,7 @@ def play(stdscr):
         for bullet in bullets:
             #Hyper bullets
             if bullet_counter >= 10:
-                stdscr.addstr(bullet.y, bullet.x, ">")
+                stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
             else:
                 stdscr.addstr(bullet.y, bullet.x, "-")
 
@@ -241,7 +241,7 @@ def play(stdscr):
             if 0 < i < 10:
                 bullet_string += "|"
             elif i == 0:
-                bullet_string += ">" #Add inHypper bullets indicator
+                bullet_string += HYPPER_BULLETS #Add inHypper bullets indicator
             else:
                 bullet_string += " "
 
