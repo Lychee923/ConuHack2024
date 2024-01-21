@@ -9,7 +9,7 @@ from Bullet import Bullet
 bullets = []
 zombies = []
 
-spawnrate = 40
+spawnrate = 15
 
 
 def main(stdscr):
@@ -52,12 +52,20 @@ def main(stdscr):
         for zombie in zombies:
             if zombie.x > 0:
                 zombie.move("LEFT")
+                if (player.y > zombie.y and zombie.counter >= random.randrange(10, 40)):
+                    zombie.move("UP")
+                    zombie.counter = 0
+                elif (player.y < zombie.y and zombie.counter >= random.randrange(10, 40)):
+                    zombie.move("DOWN")
+                    zombie.counter = 0
             else:
                 zombies.remove(zombie)
 
         time.sleep(0.05)
-
-        counter += 1
+        if(random.getrandbits(1)):
+            counter += 1
+            for zombie in zombies:
+                zombie.counter+=1
 
         if counter == spawnrate:
             zombies.append(Zombie(screen_width - 2, player.y))
@@ -82,6 +90,8 @@ def main(stdscr):
                         points += round(1/i.x * 25 + 5)
 
         stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+
+        stdscr.addstr(screen_height -1, screen_width - len(str(points))-10, f"Points: {str(points)}")
 
         stdscr.refresh()
 

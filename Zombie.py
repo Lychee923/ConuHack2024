@@ -8,7 +8,7 @@ class Zombie:
         self.x = x
         self.y = y
         self.alive = True
-
+        self.counter = 0
     def move(self, direction):
         if direction == "LEFT":
             self.x -= self.speed
