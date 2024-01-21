@@ -101,8 +101,11 @@ def play(stdscr):
             elif key == "KEY_DOWN" and player.y + player.height < screen_height - 3:
                 player.y += 1
             elif key == " " and fire:
+                if bullet_counter >= AMMO-1:
+                    bullets.append(Bullet(player.width + 1, player.y + 1, 1,True))
 
-                bullets.append(Bullet(player.width + 1, player.y + 1, 1))
+                else:
+                    bullets.append(Bullet(player.width + 1, player.y + 1, 1))
                 bullet_counter += 1
 
         if key == "q":  # exit program
@@ -110,7 +113,7 @@ def play(stdscr):
 
         for bullet in bullets:
             #Hypper bullet speed <----------------
-            if bullet_counter >= AMMO:
+            if bullet.hyper:
                 bullet.speed = 2
             else:
                 bullet.speed = 1
@@ -207,7 +210,7 @@ def play(stdscr):
         for bullet in bullets:
             # Hyper bullets
             if bullet.x < screen_width:
-                if bullet_counter >= AMMO:
+                if bullet.hyper:
                     stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
                 else:
                     stdscr.addstr(bullet.y, bullet.x, "-")
@@ -219,13 +222,14 @@ def play(stdscr):
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
                     #Hypper bullet damage
-                    if bullet_counter >= AMMO:
-                        bullet.damage = 2
+                    if bullet.hyper:
+                        bullet.damage = 3
                     else:
                         bullet.damage = 1
 
-                    bullets.remove(bullet)
+
                     zombie.take_damage(bullet.damage)
+                    bullets.remove(bullet)
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
@@ -258,7 +262,7 @@ def play(stdscr):
         # Mag constructurer
         for i in range(AMMO - bullet_counter):
             if 0 < i < AMMO :
-                bullet_string += "⭑"
+                bullet_string += "*"
             elif i == 0:
                 bullet_string += HYPPER_BULLETS #Add inHypper bullets indicator
             else:
