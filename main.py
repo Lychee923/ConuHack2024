@@ -163,13 +163,13 @@ def play(stdscr):
                 stdscr.addstr(zombie.y, zombie.x, zombie.face)
                 stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
-
+        #Change spawn rate
         if environment_counter >= 100 and spawnrate == 10:
             spawnrate -= 2
         if environment_counter >= 200 and spawnrate == 8:
             spawnrate -= 2
         if environment_counter >= 400 and spawnrate == 6: 
-            spawnrate -= 2
+            spawnrate -= 1
 
 
         # Player zombie collision
@@ -207,8 +207,6 @@ def play(stdscr):
                     # Check if zombie dead
                     if not zombie.alive:
                         zombies.remove(zombie)
-                        stdscr.addstr(zombie.y, zombie.x, zombie.dead)
-                        
                         points += round(1 / zombie.x * 25 + 5)
 
         hp_string = "HP: "
@@ -237,7 +235,7 @@ def play(stdscr):
             if 0 < i < 10:
                 bullet_string += "|"
             elif i == 0:
-                bullet_string += ">" #add inHypper bullets indicator
+                bullet_string += ">" #Add inHypper bullets indicator
             else:
                 bullet_string += " "
 
