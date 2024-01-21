@@ -33,7 +33,7 @@ def death_screen(stdscr, score):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 4, f"GAME OVER")
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 4, f"GAME OVER", curses.A_BOLD)
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
                   f"Score: {score}")
     stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 5, f"Restart (r)")
@@ -136,10 +136,10 @@ def play(stdscr):
                 zombie.counter += 1
 
         if not gameover:
-            if counter == spawnrate:
+            if counter >= spawnrate:
                 zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
-            #if counter == spawnrate:
-                #zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), "[´ཀ`]", "[`ཀ´]")) <-------------
+                # if counter == spawnrate:
+                # zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), "[´ཀ`]", "[`ཀ´]")) <-------------
                 counter = 0
 
         stdscr.clear()
@@ -163,14 +163,13 @@ def play(stdscr):
                 stdscr.addstr(zombie.y, zombie.x, zombie.face)
                 stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
-        #Change spawn rate
+        # Change spawn rate
         if environment_counter >= 100 and spawnrate == 10:
             spawnrate -= 2
         if environment_counter >= 200 and spawnrate == 8:
             spawnrate -= 2
-        if environment_counter >= 400 and spawnrate == 6: 
+        if environment_counter >= 400 and spawnrate == 6:
             spawnrate -= 1
-
 
         # Player zombie collision
         for zombie in zombies:
@@ -184,7 +183,7 @@ def play(stdscr):
                         death_screen(stdscr, points)
 
         for bullet in bullets:
-            #Hyper bullets
+            # Hyper bullets
             if bullet_counter >= 10:
                 stdscr.addstr(bullet.y, bullet.x, HYPPER_BULLETS)
             else:
@@ -194,9 +193,9 @@ def play(stdscr):
         for bullet in bullets:
             for zombie in zombies:
                 if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1) and \
-                (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
-                    
-                    #Hypper bullet
+                        (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
+
+                    # Hypper bullet
                     if bullet_counter >= 10:
                         bullet.damage = 3
                     else:
@@ -227,16 +226,15 @@ def play(stdscr):
             for i in range(reload_timer // 2):
                 if i < 10:
                     bullet_string += "-"
-                    #Hypper bullet text
-                    stdscr.addstr(1, screen_width // 2 - 10, "Hypper bullet time!!!")
+                    # Hypper bullet text
+                    stdscr.addstr(1, screen_width // 2 - 10, "Hyper Bullet Time!!!")
                 else:
                     bullet_string += " "
 
         if reload_timer == 20:
             bullet_string = "Bullets: "
 
-
-        #Mag constructurer
+        # Mag constructurer
         for i in range(10 - bullet_counter):
             if 0 < i < 10:
                 bullet_string += "|"
@@ -245,10 +243,9 @@ def play(stdscr):
             else:
                 bullet_string += " "
 
-             
         stdscr.addstr(screen_height - 2, 1, hp_string)
         stdscr.addstr(screen_height - 1, 1, bullet_string)
-        #stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+        # stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
         stdscr.addstr(1, 1, f"Points: {str(points)}")
 
         stdscr.refresh()
