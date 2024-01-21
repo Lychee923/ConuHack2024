@@ -37,15 +37,26 @@ def main(stdscr):
         # Make sure wrong input will come out as None
         try:
             key = stdscr.getkey()
+
         except:
             key = None
 
+<<<<<<< Updated upstream
         if not gameover:
             if key == "KEY_UP" and player.y > 0:
                 player.y -= 1
             elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
                 player.y += 1
             elif key == " " and fire:
+=======
+
+        if key == "KEY_UP" and player.y > 0:
+            player.y -= 1
+        elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
+            player.y += 1
+            # player.change_stance()
+        elif key == " " and fire:
+>>>>>>> Stashed changes
 
                 bullets.append(Bullet(player.width + 1, player.y + 1, 1))
                 bullet_counter += 1
