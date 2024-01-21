@@ -21,13 +21,13 @@ def main(stdscr):
     gameover = False
     counter = 0
     points = 0
-    counterTree = 0
+    counter_tree = 0
     stdscr.clear()
     stdscr.refresh()
-    bulletCounter = 0
-    Fire = True
+    bullet_counter = 0
+    fire = True
 
-    reloadTimer = 0
+    reload_timer = 0
 
     player.update_stance()
     stdscr.addstr(player.y, 0, player.stance)
@@ -45,10 +45,10 @@ def main(stdscr):
         elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
             player.y += 1
             # player.change_stance()
-        elif key == " " and Fire:
+        elif key == " " and fire:
 
             bullets.append(Bullet(player.width + 1, player.y + 1, 1))
-            bulletCounter += 1
+            bullet_counter += 1
 
         elif key == "p":  # exit program
             player.y += 10000
@@ -59,15 +59,15 @@ def main(stdscr):
             else:
                 bullets.remove(bullet)
 
-        if (bulletCounter > 12):
-            Fire = False
-            reloadTimer += 1
-            if reloadTimer >= 40:
-                bulletCounter = 0
-                Fire = True
-        else:
-            reloadTimer = 0
+        if bullet_counter >= 20:
+            fire = False
+            reload_timer += 1
 
+            if reload_timer >= 40:
+                bullet_counter = 0
+                fire = True
+        else:
+            reload_timer = 0
 
         for zombie in zombies:
             if zombie.x > 0:
@@ -84,7 +84,7 @@ def main(stdscr):
         time.sleep(0.05)
         if random.getrandbits(1):
             counter += 1
-            counterTree += 1
+            counter_tree += 1
             for zombie in zombies:
                 zombie.counter += 1
 
@@ -128,7 +128,25 @@ def main(stdscr):
             else:
                 hp_string += "▢"
 
-        stdscr.addstr(screen_height - 1, 1, hp_string)
+        bullet_string = "Bullets: "
+        if reload_timer != 0 and reload_timer % 2 == 0:
+            for i in range(reload_timer // 2):
+                if i < 20:
+                    bullet_string += "-"
+                else:
+                    bullet_string += " "
+
+        if reload_timer == 40:
+            bullet_string = "Bullets: "
+
+        for i in range(20 - bullet_counter):
+            if i < 20:
+                bullet_string += "|"
+            else:
+                bullet_string += " "
+
+        stdscr.addstr(screen_height - 2, 1, hp_string)
+        stdscr.addstr(screen_height - 1, 1, bullet_string)
         stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
 
         stdscr.refresh()
