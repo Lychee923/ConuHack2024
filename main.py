@@ -115,7 +115,7 @@ def play(stdscr):
             else:
                 bullet.speed = 1
             
-            if bullet.x < screen_width - 1:
+            if bullet.x < screen_width - 2:
                 bullet.move()
             else:
                 bullets.remove(bullet)
