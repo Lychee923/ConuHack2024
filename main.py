@@ -50,7 +50,7 @@ def main(stdscr):
                 bullets.append(Bullet(player.width + 1, player.y + 1, 1))
                 bullet_counter += 1
 
-        elif key == "q":  # exit program
+        if key == "q":  # exit program
             player.y += 10000
 
         for bullet in bullets:
