@@ -1,4 +1,5 @@
 import curses
+import subprocess
 import time
 import random
 from curses import wrapper
@@ -11,8 +12,12 @@ MARK = "====================                    "
 HYPPER_BULLETS = "●"
 AMMO = 5
 
+
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
+
+    subprocess.run("./highscore.sh", shell=True, check=True, stdout=subprocess.PIPE, text=True)
+
     stdscr.clear()
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 15, "[ n+-- ")
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 8, "TERMINAL ASSAULT", curses.A_BOLD)
@@ -30,13 +35,16 @@ def start_screen(stdscr):
         start_screen(stdscr)
 
 
-def death_screen(stdscr, score):
+def death_screen(stdscr, score, highscore):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 4, f"GAME OVER", curses.A_BOLD)
+    stdscr.addstr(int(screen_height / 2) - 4, int(screen_width / 2) - 4, f"GAME OVER", curses.A_BOLD)
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - int(len(f"Highscore: {highscore}") / 2),
+                  f"Highscore: {highscore}")
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
                   f"Score: {score}")
+
     stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 5, f"Restart (r)")
     stdscr.addstr(int(screen_height / 2) + 1, int(screen_width / 2) - 4, f"Quit (q)")
     stdscr.refresh()
@@ -48,7 +56,7 @@ def death_screen(stdscr, score):
     elif key == "q":
         exit(0)
     else:
-        death_screen(stdscr, score)
+        death_screen(stdscr, score, highscore)
 
 
 def play(stdscr):
@@ -187,7 +195,14 @@ def play(stdscr):
 
                     if hp == 0:
                         gameover = True
-                        death_screen(stdscr, points)
+                        highscore = subprocess.run("./highscore.sh", shell=True, check=True,
+                                                   stdout=subprocess.PIPE, text=True).stdout
+
+                        if points > int(highscore):
+                            highscore = subprocess.run(f"./highscore.sh {points}", shell=True, check=True,
+                                                       stdout=subprocess.PIPE, text=True)
+
+                        death_screen(stdscr, points, highscore)
 
         for bullet in bullets:
             # Hyper bullets
@@ -226,8 +241,6 @@ def play(stdscr):
         for i in range(player.hp):
             if i < hp:
                 hp_string += "❤"
-            else:
-                hp_string += ""
 
         bullet_string = "Bullets: "
         if reload_timer != 0 and reload_timer % 2 == 0:
