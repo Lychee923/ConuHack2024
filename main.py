@@ -200,7 +200,7 @@ def play(stdscr):
 
                         if points > int(highscore):
                             highscore = subprocess.run(f"./highscore.sh {points}", shell=True, check=True,
-                                                       stdout=subprocess.PIPE, text=True)
+                                                       stdout=subprocess.PIPE, text=True).stdout
 
                         death_screen(stdscr, points, highscore)
 
