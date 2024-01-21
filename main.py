@@ -40,15 +40,15 @@ def main(stdscr):
         except:
             key = None
 
-        if key == "KEY_UP" and player.y > 0:
-            player.y -= 1
-        elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
-            player.y += 1
-            # player.change_stance()
-        elif key == " " and fire:
+        if not gameover:
+            if key == "KEY_UP" and player.y > 0:
+                player.y -= 1
+            elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
+                player.y += 1
+            elif key == " " and fire:
 
-            bullets.append(Bullet(player.width + 1, player.y + 1, 1))
-            bullet_counter += 1
+                bullets.append(Bullet(player.width + 1, player.y + 1, 1))
+                bullet_counter += 1
 
         elif key == "p":  # exit program
             player.y += 10000
@@ -69,17 +69,18 @@ def main(stdscr):
         else:
             reload_timer = 0
 
-        for zombie in zombies:
-            if zombie.x > 0:
-                zombie.move("LEFT")
-                if player.y > zombie.y and zombie.counter >= random.randrange(10, 40):
-                    zombie.move("UP")
-                    zombie.counter = 0
-                elif player.y < zombie.y and zombie.counter >= random.randrange(10, 40):
-                    zombie.move("DOWN")
-                    zombie.counter = 0
-            else:
-                zombies.remove(zombie)
+        if not gameover:
+            for zombie in zombies:
+                if zombie.x > 0:
+                    zombie.move("LEFT")
+                    if player.y > zombie.y and zombie.counter >= random.randrange(10, 40):
+                        zombie.move("UP")
+                        zombie.counter = 0
+                    elif player.y < zombie.y and zombie.counter >= random.randrange(10, 40):
+                        zombie.move("DOWN")
+                        zombie.counter = 0
+                else:
+                    zombies.remove(zombie)
 
         time.sleep(0.05)
         if random.getrandbits(1):
@@ -88,9 +89,10 @@ def main(stdscr):
             for zombie in zombies:
                 zombie.counter += 1
 
-        if counter == spawnrate:
-            zombies.append(Zombie(screen_width - 3, random.randrange(1, screen_height - 5)))
-            counter = 0
+        if not gameover:
+            if counter == spawnrate:
+                zombies.append(Zombie(screen_width - 3, random.randrange(1, screen_height - 5)))
+                counter = 0
 
         stdscr.clear()
 
