@@ -55,7 +55,7 @@ def play(stdscr):
     player = Player(5, 5)
     hp = player.hp
 
-    environmentCounter = 0
+    environment_counter = 0
 
     bullets = []
     zombies = []
@@ -142,7 +142,7 @@ def play(stdscr):
                 counter = 0
 
         stdscr.clear()
-        environmentCounter += 1
+        environment_counter += 1
 
         for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
@@ -154,7 +154,7 @@ def play(stdscr):
         for i in range(screen_width):
             if (player.y == laneMarkY or player.y + 1 == laneMarkY or player.y + 2 == laneMarkY) and i <= 3:
                 continue
-            stdscr.addstr(laneMarkY, i, mark[(i + environmentCounter // 2) % 40])
+            stdscr.addstr(laneMarkY, i, mark[(i + environment_counter // 2) % 40])
 
         if not gameover:
             for zombie in zombies:
@@ -162,15 +162,14 @@ def play(stdscr):
                 stdscr.addstr(zombie.y, zombie.x, zombie.face)
                 stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
-        if environmentCounter >= 100 and spawnrate == 10:
+        if environment_counter >= 100 and spawnrate == 10:
             spawnrate -= 2
-        if environmentCounter >= 200 and spawnrate == 8:
+        if environment_counter >= 200 and spawnrate == 8:
             spawnrate -= 2
-        if environmentCounter >= 300 and spawnrate == 6:
+        if environment_counter >= 300 and spawnrate == 6:
             spawnrate -= 1
         # if environmentCounter >= 500 and spawnrate == 3:
         #     spawnrate -= 3
-
 
         # Player zombie collision
         for zombie in zombies:

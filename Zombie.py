@@ -14,7 +14,7 @@ class Zombie:
     dead2 = "- -"
     dead3 = "<   >"
 
-    def __init__(self, x, y, default_face = face1, angry_face = face2, hp=3, speed=1):
+    def __init__(self, x, y, default_face=face1, angry_face=face2, hp=3, speed=1):
         self.max_hp = hp
         self.hp = hp
         self.speed = speed
@@ -49,7 +49,7 @@ class Zombie:
 
     def update_body(self):
         if self.hp <= 2:
-            self.face = self.angry_face2
+            self.face = self.angry_face
 
         if self.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
@@ -65,9 +65,6 @@ class Zombie:
             self.leg_stance += 1
         self.tick += 1
 
-    #def health_bar(self):
-        #return str(self.hp) + f"/{self.max_hp}"
-    
 
     def zombiw_dead():
         pass
