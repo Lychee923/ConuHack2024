@@ -89,7 +89,7 @@ def main(stdscr):
                 zombie.counter += 1
 
         if counter == spawnrate:
-            zombies.append(Zombie(screen_width - 2, random.randrange(1, screen_height - 5)))
+            zombies.append(Zombie(screen_width - 3, random.randrange(1, screen_height - 5)))
             counter = 0
 
         stdscr.clear()
