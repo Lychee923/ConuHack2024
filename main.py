@@ -71,8 +71,9 @@ def main(stdscr):
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
+            zombie.update_leg()
             stdscr.addstr(zombie.y, zombie.x, zombie.face)
-            stdscr.addstr(zombie.y+1, zombie.x, zombie.face)
+            stdscr.addstr(zombie.y+1, zombie.x, zombie.leg)
 
         for bullet in bullets:
             for i in zombies:
