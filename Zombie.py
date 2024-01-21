@@ -63,7 +63,7 @@ class Zombie:
             self.leg_stance += 1
         self.tick += 1
 
-    #def health_id(self):
+    #def health_bar(self):
         #return str(self.hp) + f"/{self.max_hp}"
     
 
