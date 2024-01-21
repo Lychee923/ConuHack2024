@@ -8,33 +8,47 @@ from Player import Player
 from Bullet import Bullet
 
 
-def main(stdscr):
-    points = play(stdscr)
+mark = "[==================]                    "
+
+
+def start_screen(stdscr):
+    screen_height, screen_width = stdscr.getmaxyx()
+    stdscr.clear()
+    stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 9, "Press 'p' to Start")
+    stdscr.refresh()
+    key = stdscr.getkey()
+    if key == "p":
+        play(stdscr)
+    else:
+        start_screen(stdscr)
+
+
+def death_screen(stdscr, score):
+    screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
-    stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 4, f"GAME OVER")
+    stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
+                  f"Score: {score}")
+    stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 5, f"Restart (r)")
+    stdscr.addstr(int(screen_height / 2) + 1, int(screen_width / 2) - 4, f"Quit (q)")
     stdscr.refresh()
     stdscr.nodelay(False)
-    time.sleep(2)
+    time.sleep(1)
     key = stdscr.getkey()
 
-    while key == "r":
-        stdscr.clear()
-
-        points = play(stdscr)
-        stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
-        stdscr.addstr(2, 1, f"Press R to restart, any other keys to quit")
-        stdscr.refresh()
-        stdscr.nodelay(False)
-        time.sleep(2)
-        key = stdscr.getkey()
+    if key == "r":
+        play(stdscr)
+    elif key == "q":
+        stdscr.addstr(10000, 10000, "crash")
 
 
 def play(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 5)
     hp = player.hp
+
+    environmentCounter = 0
 
     bullets = []
     zombies = []
@@ -56,6 +70,8 @@ def play(stdscr):
     stdscr.addstr(player.y, 0, player.stance)
     stdscr.nodelay(True)
 
+    laneMarkY = screen_height // 2
+
     while True:
         # Make sure wrong input will come out as None
         try:
@@ -64,9 +80,9 @@ def play(stdscr):
             key = None
 
         if not gameover:
-            if key == "KEY_UP" and player.y > 0:
+            if key == "KEY_UP" and player.y > 4:
                 player.y -= 1
-            elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
+            elif key == "KEY_DOWN" and player.y + player.height < screen_height - 3:
                 player.y += 1
             elif key == " " and fire:
 
@@ -114,10 +130,22 @@ def play(stdscr):
 
         if not gameover:
             if counter == spawnrate:
+<<<<<<< HEAD
                 zombies.append(Zombie(screen_width - 5  , random.randrange(1, screen_height - 5)))
+=======
+                zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
+
+>>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                 counter = 0
 
         stdscr.clear()
+        environmentCounter += 1
+        for i in range(screen_width):
+            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
+
+        for i in range(1, screen_width):
+            stdscr.addstr(3, i, "_")
+            stdscr.addstr(screen_height - 4, i, "_")
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
@@ -130,33 +158,39 @@ def play(stdscr):
 
         #Player zombie collision
         for zombie in zombies:
+<<<<<<< HEAD
             if zombie.x == player.width or zombie.x == player.width + 1:
                 if zombie.y == player.y + 1 or zombie.y == player.y or zombie.y == player.y - 1:
+=======
+            if zombie.x <= player.width:
+                if player.y - 1 <= zombie.y <= player.y + 2:
+>>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                     zombies.remove(zombie)
                     hp -= 1
 
                     if hp == 0:
                         gameover = True
-                        return points
+                        death_screen(stdscr, points)
 
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
- 
-  
-        #Bullets zombie collision
+
+        # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
                 if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
                     if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
+<<<<<<< HEAD
                         zombie.take_damage()
                         #Check if zombie dead
                         if not zombie.alive:
+=======
+                        zombie.hp -= 1
+                        if zombie.hp == 0:
+>>>>>>> 51dd929ee34b0919d8b326ad4867b30cf2c0bdad
                             zombies.remove(zombie)
                             points += round(1 / zombie.x * 25 + 5)
-                            
-
-
 
         hp_string = "HP: "
         for i in range(player.hp):
@@ -189,4 +223,4 @@ def play(stdscr):
         stdscr.refresh()
 
 
-wrapper(main)
+wrapper(start_screen)
