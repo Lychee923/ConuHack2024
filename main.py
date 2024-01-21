@@ -138,14 +138,14 @@ def play(stdscr):
         if not gameover:
             if counter == spawnrate:
                 zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
-            if counter == 2*spawnrate:
-                zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), zombie.big_face1, zombie.big_face2))
+            #if counter == spawnrate:
+                #zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), "[´ཀ`]", "[`ཀ´]")) <-------------
                 counter = 0
 
         stdscr.clear()
         environment_counter += 1
 
-        for i in range(1, screen_width-5):
+        for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
             stdscr.addstr(screen_height - 4, i, "_")
 
@@ -163,14 +163,14 @@ def play(stdscr):
                 stdscr.addstr(zombie.y, zombie.x, zombie.face)
                 stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
+
         if environment_counter >= 100 and spawnrate == 10:
             spawnrate -= 2
         if environment_counter >= 200 and spawnrate == 8:
             spawnrate -= 2
-        if environment_counter >= 300 and spawnrate == 6:
-            spawnrate -= 1
-        # if environmentCounter >= 500 and spawnrate == 3:
-        #     spawnrate -= 3
+        if environment_counter >= 400 and spawnrate == 6: 
+            spawnrate -= 2
+
 
         # Player zombie collision
         for zombie in zombies:
@@ -184,47 +184,68 @@ def play(stdscr):
                         death_screen(stdscr, points)
 
         for bullet in bullets:
-            stdscr.addstr(bullet.y, bullet.x, "-")
+            #Hyper bullets
+            if bullet_counter >= 10:
+                stdscr.addstr(bullet.y, bullet.x, ">")
+            else:
+                stdscr.addstr(bullet.y, bullet.x, "-")
 
         # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
-                if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
-                    if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
-                        bullets.remove(bullet)
-                        zombie.take_damage()
-                        # Check if zombie dead
-                        if not zombie.alive:
-                            zombies.remove(zombie)
-                            points += round(1 / zombie.x * 25 + 5)
+                if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1) and \
+                (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
+                    bullets.remove(bullet)
+                    
+                    #Hypper bullet
+                    if bullet_counter >= 10:
+                        bullet.damage = 3
+                    else:
+                        bullet.damage = 1
+
+                    zombie.take_damage(bullet.damage)
+                    # Check if zombie dead
+                    if not zombie.alive:
+                        zombies.remove(zombie)
+                        stdscr.addstr(zombie.y, zombie.x, zombie.dead)
+                        
+                        points += round(1 / zombie.x * 25 + 5)
 
         hp_string = "HP: "
         for i in range(player.hp):
             if i < hp:
-                hp_string += "▩"
+                hp_string += "❤"
             else:
-                hp_string += "▢"
+                hp_string += ""
 
         bullet_string = "Bullets: "
         if reload_timer != 0 and reload_timer % 2 == 0:
             for i in range(reload_timer // 2):
                 if i < 10:
                     bullet_string += "-"
+                    #Hypper bullet text
+                    stdscr.addstr(1, screen_width // 2 - 10, "Hypper bullet time!!!")
                 else:
                     bullet_string += " "
 
         if reload_timer == 20:
             bullet_string = "Bullets: "
 
+
+        #Mag constructurer
         for i in range(10 - bullet_counter):
-            if i < 10:
+            if 0 < i < 10:
                 bullet_string += "|"
+            elif i == 0:
+                bullet_string += ">" #add inHypper bullets indicator
             else:
                 bullet_string += " "
 
+             
         stdscr.addstr(screen_height - 2, 1, hp_string)
         stdscr.addstr(screen_height - 1, 1, bullet_string)
-        stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+        #stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
+        stdscr.addstr(1, 1, f"Points: {str(points)}")
 
         stdscr.refresh()
 

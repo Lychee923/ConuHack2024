@@ -10,9 +10,7 @@ class Zombie:
     leg_limp2 = " /"
     alive = True
     tick = 0
-    dead1 = " + "
-    dead2 = "- -"
-    dead3 = "<   >"
+    dead = "✘"
 
     def __init__(self, x, y, default_face=face1, angry_face=face2, hp=3, speed=1):
         self.max_hp = hp
@@ -64,7 +62,3 @@ class Zombie:
                     self.leg = self.leg_walk2
             self.leg_stance += 1
         self.tick += 1
-
-
-    def zombiw_dead():
-        pass
