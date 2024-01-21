@@ -19,16 +19,19 @@ def start_screen(stdscr):
     key = stdscr.getkey()
     if key == "p":
         play(stdscr)
+    else:
+        start_screen(stdscr)
 
 
 def death_screen(stdscr, score):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
 
-    stdscr.addstr(int(screen_height / 3), int(screen_width / 2) - 4, f"GAME OVER")
-    stdscr.addstr(int(screen_height / 3) + 1, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
+    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 4, f"GAME OVER")
+    stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - int(len(f"Score: {score}") / 2),
                   f"Score: {score}")
-    stdscr.addstr(int(screen_height / 3) + 2, int(screen_width / 2) - 20, f"Press R to Restart. Any Other Key to Quit")
+    stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 5, f"Restart (r)")
+    stdscr.addstr(int(screen_height / 2) + 1, int(screen_width / 2) - 4, f"Quit (q)")
     stdscr.refresh()
     stdscr.nodelay(False)
     time.sleep(1)
@@ -36,7 +39,7 @@ def death_screen(stdscr, score):
 
     if key == "r":
         play(stdscr)
-    else:
+    elif key == "q":
         stdscr.addstr(10000, 10000, "crash")
 
 
@@ -132,9 +135,9 @@ def play(stdscr):
                 counter = 0
 
         stdscr.clear()
-        environmentCounter +=1
+        environmentCounter += 1
         for i in range(screen_width):
-            stdscr.addstr(laneMarkY,i, mark[(i+environmentCounter//2)%40])
+            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
 
         for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
@@ -148,8 +151,8 @@ def play(stdscr):
             stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
         for zombie in zombies:
-            if zombie.x == player.width:
-                if zombie.y == player.y + 1 or zombie.y == player.y or zombie.y == player.y - 1:
+            if zombie.x <= player.width:
+                if player.y - 1 <= zombie.y <= player.y + 2:
                     zombies.remove(zombie)
                     hp -= 1
 
