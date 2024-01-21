@@ -8,7 +8,7 @@ from Player import Player
 from Bullet import Bullet
 
 
-mark = "[==================]                    "
+mark = "====================                    "
 
 
 def start_screen(stdscr):
@@ -137,8 +137,7 @@ def play(stdscr):
 
         stdscr.clear()
         environmentCounter += 1
-        for i in range(screen_width):
-            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
+
 
         for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
@@ -146,6 +145,12 @@ def play(stdscr):
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
+
+        for i in range(screen_width):
+            if((player.y == laneMarkY or player.y+1 == laneMarkY or player.y+2 == laneMarkY)and i<=3):
+                continue
+            stdscr.addstr(laneMarkY, i, mark[(i+environmentCounter//2) % 40])
+
         if not gameover:
             for zombie in zombies:
                 zombie.update_body()
