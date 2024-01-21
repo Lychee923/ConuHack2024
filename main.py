@@ -10,12 +10,15 @@ from Bullet import Bullet
 bullets = []
 zombies = []
 
-spawnrate = 15
+spawnrate = 6
 
 
 def main(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
-    player = Player(5, 100)
+    player = Player(5, 5)
+    hp = player.hp
+
+    gameover = False
     counter = 0
     points = 0
 
@@ -35,10 +38,8 @@ def main(stdscr):
 
         if key == "KEY_UP" and player.y > 0:
             player.y -= 1
-            # player.change_stance()
         elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
             player.y += 1
-            # player.change_stance()
         elif key == " ":
             bullets.append(Bullet(player.width + 1, player.y + 1, 1))
         elif key == "p":  # exit program
@@ -76,11 +77,21 @@ def main(stdscr):
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
-        for bullet in bullets:
-            stdscr.addstr(bullet.y, bullet.x, "-")
         for zombie in zombies:
             stdscr.addstr(zombie.y, zombie.x, zombie.face)
             stdscr.addstr(zombie.y + 1, zombie.x, zombie.face)
+
+        for zombie in zombies:
+            if zombie.x == player.width:
+                if zombie.y == player.y + 1 or zombie.y == player.y or zombie.y == player.y - 1:
+                    zombies.remove(zombie)
+                    hp -= 1
+
+                    if hp == 0:
+                        gameover = True
+
+        for bullet in bullets:
+            stdscr.addstr(bullet.y, bullet.x, "-")
 
         for bullet in bullets:
             for zombie in zombies:
@@ -90,6 +101,14 @@ def main(stdscr):
                         zombies.remove(zombie)
                         points += round(1 / zombie.x * 25 + 5)
 
+        hp_string = "HP: "
+        for i in range(player.hp):
+            if i < hp:
+                hp_string += "▩"
+            else:
+                hp_string += "▢"
+
+        stdscr.addstr(screen_height - 1, 1, hp_string)
         stdscr.addstr(screen_height - 1, screen_width - len(str(points)) - 10, f"Points: {str(points)}")
 
         stdscr.refresh()
