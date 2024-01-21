@@ -135,7 +135,6 @@ def play(stdscr):
         for i in range(screen_width):
             stdscr.addstr(laneMarkY,i, mark[(i+environmentCounter//2)%40])
 
-
         for i in range(1, screen_width):
             stdscr.addstr(3, i, "_")
             stdscr.addstr(screen_height - 4, i, "_")
