@@ -16,6 +16,8 @@ class Zombie:
         self.speed = speed
         self.x = x
         self.y = y
+        self.alive = True
+        self.counter = 0
         
 
     def move(self, direction):
