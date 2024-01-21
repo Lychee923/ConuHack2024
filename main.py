@@ -7,7 +7,6 @@ from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
-
 def main(stdscr):
     points = play(stdscr)
     stdscr.clear()
@@ -36,6 +35,8 @@ def play(stdscr):
     player = Player(5, 5)
     hp = player.hp
 
+
+
     bullets = []
     zombies = []
 
@@ -56,6 +57,10 @@ def play(stdscr):
     stdscr.addstr(player.y, 0, player.stance)
     stdscr.nodelay(True)
 
+    laneMarkY = screen_height //2;
+    
+
+
     while True:
         # Make sure wrong input will come out as None
         try:
@@ -64,9 +69,9 @@ def play(stdscr):
             key = None
 
         if not gameover:
-            if key == "KEY_UP" and player.y > 0:
+            if key == "KEY_UP" and player.y > 4:
                 player.y -= 1
-            elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
+            elif key == "KEY_DOWN" and player.y + player.height < screen_height - 3:
                 player.y += 1
             elif key == " " and fire:
 
@@ -112,12 +117,25 @@ def play(stdscr):
             for zombie in zombies:
                 zombie.counter += 1
 
+
+
+
+
         if not gameover:
             if counter == spawnrate:
+<<<<<<< Updated upstream
                 zombies.append(Zombie(screen_width - 5, random.randrange(1, screen_height - 5)))
+=======
+                zombies.append(Zombie(screen_width - 3, random.randrange(5, screen_height - 6)))
+>>>>>>> Stashed changes
                 counter = 0
 
         stdscr.clear()
+
+        for i in range(1,screen_width):
+            stdscr.addstr(3,i, "_")
+            stdscr.addstr(screen_height-4, i, "_")
+
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
