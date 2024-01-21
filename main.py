@@ -14,8 +14,12 @@ mark = "====================                    "
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     stdscr.clear()
-    stdscr.addstr(int(screen_height / 2) - 3, int(screen_width / 2) - 15, "[ n+-- TERMINAL ASSAULT _&_& ]")
-    stdscr.addstr(int(screen_height / 2), int(screen_width / 2) - 9, "Press 'p' to Start")
+    stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 15, "[ n+-- ")
+    stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 8, "TERMINAL ASSAULT", curses.A_BOLD)
+    stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) + 9, "_&_& ]")
+
+    stdscr.addstr(int(screen_height / 2) - 1, int(screen_width / 2) - 1, ">_")
+    stdscr.addstr(int(screen_height / 2) + 1, int(screen_width / 2) - 9, "Press 'p' to Start")
     stdscr.refresh()
     key = stdscr.getkey()
     if key == "p":
