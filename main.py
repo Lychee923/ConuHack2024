@@ -16,7 +16,7 @@ AMMO = 5
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
 
-    subprocess.run("./highscore.sh", shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    #subprocess.run("./highscore.sh", shell=True, check=True, stdout=subprocess.PIPE, text=True)
 
     stdscr.clear()
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 15, "[ n+-- ")
@@ -112,7 +112,7 @@ def play(stdscr):
             exit(0)
 
         for bullet in bullets:
-            # Hyper bullet speed <----------------
+            # Hyper bullet speed
             if bullet.hyper:
                 bullet.speed = 2
             else:
@@ -153,11 +153,9 @@ def play(stdscr):
             for zombie in zombies:
                 zombie.counter += 1
 
-        if not gameover:
-            if counter >= spawnrate:
+       
+        if not gameover and counter >= spawnrate:
                 zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
-                # if counter == spawnrate:
-                # zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), "[´ཀ`]", "[`ཀ´]")) <-------------
                 counter = 0
 
         stdscr.clear()
@@ -198,8 +196,8 @@ def play(stdscr):
 
                     if hp == 0:
                         gameover = True
-                        highscore = subprocess.run("./highscore.sh", shell=True, check=True,
-                                                   stdout=subprocess.PIPE, text=True).stdout
+                        #highscore = subprocess.run("./highscore.sh", shell=True, check=True,
+                        #                           stdout=subprocess.PIPE, text=True).stdout
 
                         if points > int(highscore):
                             highscore = subprocess.run(f"./highscore.sh {points}", shell=True, check=True,

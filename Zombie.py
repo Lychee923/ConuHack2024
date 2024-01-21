@@ -3,11 +3,11 @@ import random
 
 class Zombie:
     face1 = "_&"
-    face2 = " &"
-    face11 = " $"
-    face22 = "_*"
-    big_face1 = "[´ཀ`]"
-    big_face2 = "[`ཀ´]"
+    face11 = " &"
+    #face2 = "_$"
+    #face22 = " $"
+    face2 = "[´ཀ`]"
+    face22 = "[`ཀ´]"
     leg_walk1 = " <\\"
     leg_walk2 = " /<"
     leg_limp1 = " <"
@@ -18,7 +18,7 @@ class Zombie:
     dead2 = "<>"
     dead3 = "| |"
 
-    def __init__(self, x, y, default_face=face1, angry_face=face2, hp=3, speed=1):
+    def __init__(self, x, y, hp=3, speed=1):
         self.max_hp = hp
         self.hp = hp
         self.speed = speed
@@ -28,10 +28,9 @@ class Zombie:
         self.leg_stance = 0
         self.counter = 0
         if (random.getrandbits(1)):
-            self.face = Zombie.face22
+            self.face = Zombie.face1
         else:
-            self.face = default_face
-        self.angry_face = angry_face
+            self.face = Zombie.face2
         self.leg = "/\\"
         
 
@@ -56,24 +55,24 @@ class Zombie:
 
     def update_body(self):
         if self.hp <= 2:
-            if (random.getrandbits(1)):
-                self.face = self.angry_face
-            else:
+            if self.face == Zombie.face1:
                 self.face = Zombie.face11
+            elif self.face == Zombie.face2:
+                self.face = Zombie.face22
 
-        if self.tick % 4 == 0:
+        if Zombie.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
                 if self.hp == 1:
-                    self.leg = self.leg_limp1
+                    self.leg = Zombie.leg_limp1
                 else:
-                    self.leg = self.leg_walk1
+                    self.leg = Zombie.leg_walk1
             else:
                 if self.hp == 1:
-                    self.leg = self.leg_limp2
+                    self.leg = Zombie.leg_limp2
                 else:
-                    self.leg = self.leg_walk2
+                    self.leg = Zombie.leg_walk2
             self.leg_stance += 1
-        self.tick += 1
+        Zombie.tick += 1
 
 '''
     def deadth_animation(self):
