@@ -94,7 +94,7 @@ def play(stdscr):
 
         if not gameover:
             for zombie in zombies:
-                if zombie.x > 0:
+                if zombie.x > 3:
                     zombie.move("LEFT")
                     if player.y > zombie.y and zombie.counter >= random.randrange(10, 40):
                         zombie.move("UP")
@@ -114,20 +114,23 @@ def play(stdscr):
 
         if not gameover:
             if counter == spawnrate:
-                zombies.append(Zombie(screen_width - 5, random.randrange(1, screen_height - 5)))
+                zombies.append(Zombie(screen_width - 5  , random.randrange(1, screen_height - 5)))
                 counter = 0
 
         stdscr.clear()
 
         player.update_stance()
         stdscr.addstr(player.y, 0, player.stance)
-        for zombie in zombies:
-            zombie.update_leg()
-            stdscr.addstr(zombie.y, zombie.x, zombie.big_face)
-            stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
+        if not gameover:
+            for zombie in zombies:
+                zombie.update_body()
+                stdscr.addstr(zombie.y, zombie.x, zombie.face)
+                stdscr.addstr(zombie.y + 1, zombie.x, zombie.leg)
 
+
+        #Player zombie collision
         for zombie in zombies:
-            if zombie.x == player.width:
+            if zombie.x == player.width or zombie.x == player.width + 1:
                 if zombie.y == player.y + 1 or zombie.y == player.y or zombie.y == player.y - 1:
                     zombies.remove(zombie)
                     hp -= 1
@@ -146,8 +149,9 @@ def play(stdscr):
                 if zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1:
                     if zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1:
                         bullets.remove(bullet)
-                        zombie.hp -= 1  
-                        if zombie.hp == 0:                                                        
+                        zombie.take_damage()
+                        #Check if zombie dead
+                        if not zombie.alive:
                             zombies.remove(zombie)
                             points += round(1 / zombie.x * 25 + 5)
                             
