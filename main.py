@@ -7,16 +7,44 @@ from Zombie import Zombie
 from Player import Player
 from Bullet import Bullet
 
-bullets = []
-zombies = []
-
-spawnrate = 6
-
 
 def main(stdscr):
+
+
+    points = play(stdscr)
+    stdscr.clear()
+
+    stdscr.addstr(1,1, f"GAME OVER Points achieve{points}")
+    stdscr.addstr(2, 1, f"Press R to retart, any other keys to quit")
+    stdscr.refresh()
+    stdscr.nodelay(False)
+    time.sleep(2)
+    key = stdscr.getkey()
+
+    while(key == "r"):
+        stdscr.clear()
+
+        points = play(stdscr)
+        stdscr.addstr(1, 1, f"GAME OVER Points achieve{points}")
+        stdscr.addstr(2, 1, f"Press R to retart, any other keys to quit")
+        stdscr.refresh()
+        stdscr.nodelay(False)
+        time.sleep(2)
+        key = stdscr.getkey()
+
+
+
+
+def play(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
     player = Player(5, 5)
     hp = player.hp
+
+    bullets = []
+    zombies = []
+
+    spawnrate = 6
+
 
     gameover = False
     counter = 0
@@ -41,22 +69,13 @@ def main(stdscr):
         except:
             key = None
 
-<<<<<<< Updated upstream
         if not gameover:
             if key == "KEY_UP" and player.y > 0:
                 player.y -= 1
             elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
                 player.y += 1
             elif key == " " and fire:
-=======
 
-        if key == "KEY_UP" and player.y > 0:
-            player.y -= 1
-        elif key == "KEY_DOWN" and player.y + player.height < screen_height - 2:
-            player.y += 1
-            # player.change_stance()
-        elif key == " " and fire:
->>>>>>> Stashed changes
 
                 bullets.append(Bullet(player.width + 1, player.y + 1, 1))
                 bullet_counter += 1
@@ -122,6 +141,7 @@ def main(stdscr):
 
                     if hp == 0:
                         gameover = True
+                        return points
 
         for bullet in bullets:
             stdscr.addstr(bullet.y, bullet.x, "-")
