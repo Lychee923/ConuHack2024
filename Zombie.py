@@ -1,7 +1,11 @@
+import random
+
 
 class Zombie:
     face1 = "_&"
     face2 = " &"
+    face11 = " $"
+    face22 = "_*"
     big_face1 = "[´ཀ`]"
     big_face2 = "[`ཀ´]"
     leg_walk1 = " <\\"
@@ -23,7 +27,10 @@ class Zombie:
         self.alive = True
         self.leg_stance = 0
         self.counter = 0
-        self.face = default_face
+        if (random.getrandbits(1)):
+            self.face = Zombie.face22
+        else:
+            self.face = default_face
         self.angry_face = angry_face
         self.leg = "/\\"
         
@@ -49,7 +56,10 @@ class Zombie:
 
     def update_body(self):
         if self.hp <= 2:
-            self.face = self.angry_face
+            if (random.getrandbits(1)):
+                self.face = self.angry_face
+            else:
+                self.face = Zombie.face11
 
         if self.tick % 4 == 0:
             if self.leg_stance % 2 == 0:
