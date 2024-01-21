@@ -19,7 +19,7 @@ AMMO = 5
 def start_screen(stdscr):
     screen_height, screen_width = stdscr.getmaxyx()
 
-    #subprocess.run("./highscore.sh", shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    subprocess.run("./highscore.sh", shell=True, check=True, stdout=subprocess.PIPE, text=True)
 
     stdscr.clear()
     stdscr.addstr(int(screen_height / 2) - 2, int(screen_width / 2) - 15, "[ n+-- ")
@@ -203,8 +203,8 @@ def play(stdscr):
 
                     if hp == 0:
                         gameover = True
-                        #highscore = subprocess.run("./highscore.sh", shell=True, check=True,
-                        #                           stdout=subprocess.PIPE, text=True).stdout
+                        highscore = subprocess.run("./highscore.sh", shell=True, check=True,
+                                                   stdout=subprocess.PIPE, text=True).stdout
 
                         if points > int(highscore):
                             highscore = subprocess.run(f"./highscore.sh {points}", shell=True, check=True,
