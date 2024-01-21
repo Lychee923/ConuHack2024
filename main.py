@@ -138,13 +138,14 @@ def play(stdscr):
         if not gameover:
             if counter == spawnrate:
                 zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6)))
-
+            if counter == 2*spawnrate:
+                zombies.append(Zombie(screen_width - 5, random.randrange(5, screen_height - 6), zombie.big_face1, zombie.big_face2))
                 counter = 0
 
         stdscr.clear()
         environment_counter += 1
 
-        for i in range(1, screen_width):
+        for i in range(1, screen_width-5):
             stdscr.addstr(3, i, "_")
             stdscr.addstr(screen_height - 4, i, "_")
 
