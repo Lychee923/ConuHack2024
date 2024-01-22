@@ -73,6 +73,7 @@ def play(stdscr):
     zombies = []
 
     spawnrate = 10
+    zombie_moverate = 0
 
     gameover = False
     counter = 0
@@ -142,10 +143,10 @@ def play(stdscr):
             for zombie in zombies:
                 if zombie.x > 3:
                     zombie.move("LEFT")
-                    if player.y > zombie.y and zombie.counter >= random.randrange(10, 40):
+                    if player.y > zombie.y and zombie.counter >= random.randrange(8, 40 - zombie_moverate):
                         zombie.move("UP")
                         zombie.counter = 0
-                    elif player.y < zombie.y and zombie.counter >= random.randrange(10, 40):
+                    elif player.y < zombie.y and zombie.counter >= random.randrange(8, 40 - zombie_moverate):
                         zombie.move("DOWN")
                         zombie.counter = 0
                 else:
@@ -193,7 +194,10 @@ def play(stdscr):
             spawnrate -= 2
         if environment_counter >= 400 and spawnrate == 6:
             spawnrate -= 1
-
+            zombie_moverate -= 5
+        if environment_counter >= 800 and spawnrate == 5:
+            spawnrate -= 1
+            zombie_moverate -= 5
         # Player zombie collision
         for zombie in zombies:
             if zombie.x <= player.width:
@@ -223,7 +227,8 @@ def play(stdscr):
         # Bullets zombie collision
         for bullet in bullets:
             for zombie in zombies:
-                if (zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x - 2 or zombie.x == bullet.x -3) and \
+                if (
+                        zombie.x == bullet.x + 1 or zombie.x == bullet.x or zombie.x == bullet.x - 1 or zombie.x == bullet.x - 2 or zombie.x == bullet.x - 3) and \
                         (zombie.y == bullet.y + 1 or zombie.y == bullet.y or zombie.y == bullet.y - 1):
 
                     # Hypper bullet damage
@@ -241,7 +246,6 @@ def play(stdscr):
                         points += round(1 / zombie.x * 25 + 5)
 
                     break
-
 
         hp_string = "HP: "
         for i in range(player.hp):
